@@ -1,7 +1,7 @@
 # Default values.
 TEMPLATE_FILE ?= template-centos.json
 TIMESTAMP := $(shell date +%s)
-PLATFORM_VAR_FILE ?= vars/centos-07.06.json
+VERSION_VAR_FILE ?= vars/centos-07.06.json
 CUSTOM_VAR_FILE ?= vars/custom-var.json
 ANSIBLE_MODE ?= none
 
@@ -64,9 +64,9 @@ export ANSIBLE_ROLE=$(ansible_role)
 help:
 	@echo "Perform a Packer build."
 	@echo 'Usage:'
-	@echo '  make [TEMPLATE_FILE=$(TEMPLATE_FILE)] [PLATFORM_VAR_FILE=$(PLATFORM_VAR_FILE)] [CUSTOM_VAR_FILE=$(CUSTOM_VAR_FILE)] <target>'
-	@echo '  make [TEMPLATE_FILE=$(TEMPLATE_FILE)] [PLATFORM_VAR_FILE=$(PLATFORM_VAR_FILE)] [CUSTOM_VAR_FILE=$(CUSTOM_VAR_FILE)] template-validate'
-	@echo '  make [TEMPLATE_FILE=$(TEMPLATE_FILE)] [PLATFORM_VAR_FILE=$(PLATFORM_VAR_FILE)] [CUSTOM_VAR_FILE=$(CUSTOM_VAR_FILE)] template-debug'
+	@echo '  make [TEMPLATE_FILE=$(TEMPLATE_FILE)] [VERSION_VAR_FILE=$(VERSION_VAR_FILE)] [CUSTOM_VAR_FILE=$(CUSTOM_VAR_FILE)] <target>'
+	@echo '  make [TEMPLATE_FILE=$(TEMPLATE_FILE)] [VERSION_VAR_FILE=$(VERSION_VAR_FILE)] [CUSTOM_VAR_FILE=$(CUSTOM_VAR_FILE)] template-validate'
+	@echo '  make [TEMPLATE_FILE=$(TEMPLATE_FILE)] [VERSION_VAR_FILE=$(VERSION_VAR_FILE)] [CUSTOM_VAR_FILE=$(CUSTOM_VAR_FILE)] template-debug'
 	@echo '  make [TEMPLATE_FILE=$(TEMPLATE_FILE)] template-format    # Warning: After formatting, variables need to be moved to top of $(TEMPLATE_FILE)'
 	@echo
 	@echo 'Where:'
@@ -84,7 +84,7 @@ amazon-ebs:
 	-only=amazon-ebs \
 	-var 'ansible_install=$(ansible_install)' \
 	-var 'ansible_cleanup=$(ansible_cleanup)' \
-	-var-file $(PLATFORM_VAR_FILE) \
+	-var-file $(VERSION_VAR_FILE) \
 	-var-file $(CUSTOM_VAR_FILE) \
 	template.json
 	rm template.json
@@ -97,7 +97,7 @@ googlecompute:
 	-var 'ansible_install=$(ansible_install)' \
 	-var 'ansible_cleanup=$(ansible_cleanup)' \
 	-var 'gcp_project_id=$(PROJECT_ID)' \
-	-var-file $(PLATFORM_VAR_FILE) \
+	-var-file $(VERSION_VAR_FILE) \
 	-var-file $(CUSTOM_VAR_FILE) \
 	template.json
 	rm template.json
@@ -111,7 +111,7 @@ vmware-iso:
 	-only=vmware-iso \
 	-var 'ansible_install=$(ansible_install)' \
 	-var 'ansible_cleanup=$(ansible_cleanup)' \
-	-var-file $(PLATFORM_VAR_FILE) \
+	-var-file $(VERSION_VAR_FILE) \
 	-var-file $(CUSTOM_VAR_FILE) \
 	template.json
 	rm template.json
@@ -124,7 +124,7 @@ virtualbox-iso:
 	-only=virtualbox-iso \
 	-var 'ansible_install=$(ansible_install)' \
 	-var 'ansible_cleanup=$(ansible_cleanup)' \
-	-var-file $(PLATFORM_VAR_FILE) \
+	-var-file $(VERSION_VAR_FILE) \
 	-var-file $(CUSTOM_VAR_FILE) \
 	template.json
 	rm template.json
@@ -135,7 +135,7 @@ virtualbox-iso:
 
 .PHONY: template-debug
 template-debug:
-	packer console -var-file $(PLATFORM_VAR_FILE) -var-file $(CUSTOM_VAR_FILE) $(TEMPLATE_FILE)
+	packer console -var-file $(VERSION_VAR_FILE) -var-file $(CUSTOM_VAR_FILE) $(TEMPLATE_FILE)
 
 
 .PHONY: template-format
@@ -146,7 +146,7 @@ template-format:
 
 .PHONY: template-validate
 template-validate:
-	packer validate -var-file $(PLATFORM_VAR_FILE) -var-file $(CUSTOM_VAR_FILE) $(TEMPLATE_FILE)
+	packer validate -var-file $(VERSION_VAR_FILE) -var-file $(CUSTOM_VAR_FILE) $(TEMPLATE_FILE)
 
 # -----------------------------------------------------------------------------
 # Clean up targets.

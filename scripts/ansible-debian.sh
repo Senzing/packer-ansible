@@ -4,13 +4,16 @@
 
 if [ $1 == 'true' ]
 then
-  apt -y update && apt-get -y upgrade
-  apt -y install python-pip python-dev
+  sudo apt -y update && sudo apt-get -y upgrade
+  sudo apt -y install python3-pip python3-dev git
 
   # Install Ansible.
 
-  if [ ! -z "${ANSIBLE_VERSION}" ]; then
-      ANSIBLE_VERSION_PARAMETER="=${ANSIBLE_VERSION}"
+  # if ansible version is set, install that version, else install the latest ansible
+  if [ ! -z "${ANSIBLE_VERSION}" ]
+  then
+    sudo pip3 install ansible==${ANSIBLE_VERSION}
+  else
+    sudo pip3 install ansible
   fi
-  pip install ansible${ANSIBLE_VERSION_PARAMETER}
 fi

@@ -39,7 +39,7 @@ VMware, VirtualBox, or AWS AMI.
 ## Expectations
 
 - **Space:** This repository and demonstration require 6 GB free disk space.
-- **Time:** Budget 2 hours minutes to create the virtual machine.
+- **Time:** Budget 2 hours to create the virtual machine.
 - **Background knowledge:** This repository assumes a working knowledge of:
   - [Packer](https://github.com/Senzing/knowledge-base/blob/master/WHATIS/packer.md)
 
@@ -75,20 +75,27 @@ see [Environment Variables](https://github.com/Senzing/knowledge-base/blob/maste
 
 1. Follow steps in [clone-repository](https://github.com/Senzing/knowledge-base/blob/master/HOWTO/clone-repository.md) to install the Git repository.
 
-### Custom var file
+### Setup
 
 :thinking: The `Makefile` uses the following files to create virtual images:
 
-1. `TEMPLATE_FILE` - The Packer `template.json` file used in the build.
-1. `PLATFORM_VAR_FILE` - A file of variables specifying a base image (ISO, AMI, etc.)
+1. `DISTRIBUTION_TEMPLATE_FILE` - A Packer `template-<DISTRIBUTION>.json` file for every major linux distribution is used in the build.
+1. `VERSION_VAR_FILE` - A file with variables specific for each distribution's version.
 1. `CUSTOM_VAR_FILE` - A user-configurable file specifying values to use during the build.
+
+All three files must be declared as environment variables before creating virtual images.
+
+```console
+export TEMPLATE_FILE=~/my-vars/my-custom-var.json
+```
 
 In the examples below, the `CUSTOM_VAR_FILE` is set to `vars/custom-var.json`
 In practice, this value should be modified to point to a user's custom file of variables.
 
 The `CUSTOM_VAR_FILE`, can be used to:
 
-1. Specify an [Ansible playbook](docs/PLAYBOOK_SETUP.md).
+1. Specify an [Ansible playbook](docs/PLAYBOOK_SETUP.md)
+1. Specify an [Ansible version](https://pypi.org/project/ansible/#history) (default: latest)
 1. Add Multifactor Authentication information
 1. Specify SSH keys
 1. Change disk or memory size
@@ -133,7 +140,7 @@ Example: amazon-ebs (Before creating AMIs, go through the [AWS AMI setup](docs/A
 ```console
 cd ${GIT_REPOSITORY_DIR}
 export TEMPLATE_FILE=template-centos.json
-export PLATFORM_VAR_FILE=vars/centos-07.06.json
+export VERSION_VAR_FILE=vars/centos-07.06.json
 export CUSTOM_VAR_FILE=vars/custom-var.json
 make amazon-ebs
 ```
@@ -163,7 +170,7 @@ Example: amazon-ebs
 ```console
 cd ${GIT_REPOSITORY_DIR}
 export TEMPLATE_FILE=template-centos.json
-export PLATFORM_VAR_FILE=vars/centos-08.02.json
+export VERSION_VAR_FILE=vars/centos-08.02.json
 export CUSTOM_VAR_FILE=vars/custom-var.json
 make amazon-ebs
 ```
@@ -195,7 +202,7 @@ Example: amazon-ebs
 ```console
 cd ${GIT_REPOSITORY_DIR}
 export TEMPLATE_FILE=template-debian.json
-export PLATFORM_VAR_FILE=vars/debian-09.12.00.json
+export VERSION_VAR_FILE=vars/debian-09.12.00.json
 export CUSTOM_VAR_FILE=vars/custom-var.json
 make amazon-ebs
 ```
@@ -225,7 +232,7 @@ Example: amazon-ebs
 ```console
 cd ${GIT_REPOSITORY_DIR}
 export TEMPLATE_FILE=template-debian.json
-export PLATFORM_VAR_FILE=vars/debian-10.04.00.json
+export VERSION_VAR_FILE=vars/debian-10.04.00.json
 export CUSTOM_VAR_FILE=vars/custom-var.json
 make amazon-ebs
 ```
@@ -257,7 +264,7 @@ Example: amazon-ebs
 ```console
 cd ${GIT_REPOSITORY_DIR}
 export TEMPLATE_FILE=template-ubuntu.json
-export PLATFORM_VAR_FILE=vars/ubuntu-18.04.04.json
+export VERSION_VAR_FILE=vars/ubuntu-18.04.04.json
 export CUSTOM_VAR_FILE=vars/custom-var.json
 make amazon-ebs
 ```

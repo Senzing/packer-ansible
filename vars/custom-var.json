@@ -1,2 +1,6 @@
 {
+  "ansible_galaxy_file": "requirements.yml",
+  "ansible_playbook_file": "playbook.yml",
+  "ansible_version": "2.9.6",
+  "senzing_accept_eula": "<insert senzing eula>"
 }

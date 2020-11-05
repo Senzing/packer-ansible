@@ -1,7 +1,7 @@
 {
   "variables": {
     "ansible_galaxy_file": "",
-    "ansible_playbook_dir": "",
+    "ansible_inventory_file": "",
     "ansible_playbook_file": "playbook.yaml",
     "ansible_version": "",
     "aws_ami_regions": "us-east-1",
@@ -220,9 +220,10 @@
     },
     {
       "galaxy_file": "{{user `ansible_galaxy_file`}}",
-      "playbook_dir": "{{user `ansible_playbook_dir`}}",
+      "inventory_file": "{{user `ansible_inventory_file`}}",
       "playbook_file": "{{user `ansible_playbook_file`}}",
       "only": ["${ANSIBLE_ROLE}"],
+      "extra_arguments": ["-vvvv", "--extra-vars", "\"SENZING_ACCEPT_EULA={{ user `senzing_accept_eula`}}\""],
       "type": "ansible-local"
     },
     {
